@@ -42,8 +42,9 @@ namespace DeTInYarneStaatVoorTiming.Data
 
         public bool DeleteAppointmentByDate(string date)
         {
+            DateOnly deleteDate = DateOnly.Parse(date);
             List<Appointment> appointments = _db.GetCollection<Appointment>(_APPOINTMENT).FindAll().Where(a =>
-                a.date == date).ToList();
+                DateOnly.Parse(a.date) <= deleteDate).ToList();
             foreach (Appointment appointment in appointments)
             {
                 _db.GetCollection<Appointment>(_APPOINTMENT).Delete(appointment.ID);
